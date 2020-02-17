@@ -54,33 +54,37 @@ export class Users extends React.Component<IProps, IState>
     pickedArray.splice(pickedIndex, 1);
     this.setState({pickedUsers: pickedArray});
    };
-   pickedUser(_value: React.ReactNode){
-    var pickedUsers = [...this.state.pickedUsers]; // make a separate copy of the array
-    var pickedUser =_value;
-        if(pickedUsers.length != 0){
-            var userLength = pickedUsers.length;
-            for(var i = 0; i < userLength; i++){
-               if(pickedUsers[i]['username'] == _value){
-                  var index = null;
-                  return; 
-               }else{
-                   var index = undefined;
-               } 
-            }
-        }else{
-          index = undefined;  
-        }        
-         if(index == undefined){
-            pickedUsers.push({
-             'username' : pickedUser
+   pickedUser(_value: React.ReactNode){     
+     var users = [...this.state.users];
+     var usersLength = users.length;
+     // if(usersLength != 0){
+       var pickedUser = users[Math.floor(Math.random()*users.length)];
+       var userVal = pickedUser.username;
+       var pickedUsers = [...this.state.pickedUsers];
+       var userLength = pickedUsers.length;
+       if(userLength == 0){
+        pickedUsers.push({
+             'username' : userVal
             });
             this.setState({
                 pickedUsers : pickedUsers,
                 pickedUser : ''
            })
-         }else{
-             return;
-         }
+        }else{
+           for(var j = 0; j < userLength; j++){           
+             if(pickedUsers[j]['username'] != userVal){
+                 pickedUsers.push({
+                 'username' : userVal
+                });
+                this.setState({
+                    pickedUsers : pickedUsers,
+                    pickedUser : ''
+               })
+             }else{
+               return;
+             }
+        }
+      }     
    };
    handleUserNameChange (e: React.ChangeEvent<HTMLInputElement>){
         this.setState({
@@ -131,7 +135,12 @@ export class Users extends React.Component<IProps, IState>
                         </div>
                     </div>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-1">
+               
+                    <button className="btn btn-sm btn-primary" onClick={() => this.pickedUser(this.state.pickedUsers)}>Random</button>
+                
+                </div>
+                <div className="col-md-3">
                 <div className="card">
                     <div className="card-header">
                     <h5>Picked User</h5>
