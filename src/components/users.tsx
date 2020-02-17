@@ -10,6 +10,8 @@ interface IState {
     pickedUser?: string;
     users?: any;
     pickedUsers?: any;
+    username?: any;
+    submitted?:any;
    
 }
 export class Users extends React.Component<IProps, IState> 
@@ -27,14 +29,17 @@ export class Users extends React.Component<IProps, IState>
         };
       }
    addUser(){
-     let users = this.state.users.slice();
-     users.push({
-         'username' : this.state.newUser
-        });
-   this.setState({
-users : users,
-newUser : ''
-   })
+      this.setState({ submitted: true });
+       if(this.state.newUser){
+         let users = this.state.users.slice();
+         users.push({
+             'username' : this.state.newUser
+            });
+       this.setState({
+        users : users,
+        newUser : ''
+       })
+    }   
    };
    removeUser(_value: React.ReactNode){
     var array = [...this.state.users]; // make a separate copy of the array
@@ -85,7 +90,7 @@ newUser : ''
    }
     public render(): JSX.Element
     {
-      
+      const { username,submitted} = this.state;
         return (
             <div className="container">
                 <br></br>
@@ -99,8 +104,10 @@ newUser : ''
                         <form>
                             <div className="form-group">
                                 <label>Username</label>
-                                <input type="text" value={this.state.newUser} onChange={this.handleUserNameChange} className="form-control" id="username" aria-describedby="eusernameHelp" />
-                            </div>
+                                <input type="text" name="username" value={this.state.newUser} onChange={this.handleUserNameChange} className="form-control" id="username" aria-describedby="eusernameHelp" />
+                                {submitted && !username &&
+                          <div className="help-block">This value is required.</div>}
+                           </div>
                             <button type="button" onClick={this.addUser} className="btn btn-md btn-primary">Add</button>
                     
                         </form>
