@@ -45,6 +45,7 @@ export class Users extends React.Component<IProps, IState>
             });
        this.setState({
         users : users,
+        pickedUsers: users,
         newUser : '',
         emptyUserList : false
        })
@@ -60,19 +61,12 @@ export class Users extends React.Component<IProps, IState>
     var index = list.indexOf(_value);
     array.splice(index, 1);
     this.setState({users: array});
-    var pickedArray = [...this.state.pickedUsers]; // make a separate copy of the array
-    var pickedIndex = pickedArray.indexOf(_value)
-    pickedArray.splice(pickedIndex, 1);
+    var pickedArray = [...this.state.users]; // make a separate copy of the array    
     this.setState({pickedUsers: pickedArray});
    };
    pickedUser(e:React.ReactNode){     
      var users = this.state.users;
      var usersLength = users.length;
-     // if(usersLength != 0){
-        //  this.setState({
-        //      pickedUsers : []
-        //  })
-        //var pickedUsers = [...this.state.pickedUsers];
     if(!this.state.pickedUser){
         var pickedUsers = [...this.state.users];
     }else{
